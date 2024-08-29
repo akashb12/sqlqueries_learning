@@ -55,6 +55,18 @@
 -- when expression 2 then result 2
 -- else result 3 end as new_col_name from table_name;
 
+-- groupby
+-- https://www.w3schools.com/sql/sql_having.asp
+-- The following SQL statement lists the number of customers in each country. Only include countries with more than 5 customers:
+-- select country,count(customerId) from customers group by country having count(country) > 5
+-- -- The following SQL statement lists the employees that have registered more than 10 orders:
+-- select e.employeeid,e.firstname,e.lastname,count(o.employeeid) as number_of_orders from employees e inner join orders o on e.employeeid = o.employeeid
+-- group by e.employeeid,e.firstname,e.lastname having count(o.employeeid) > 20
+-- -- The following SQL statement lists if the employees "Davolio" or "Fuller" have registered more than 25 orders:
+
+-- select e.employeeid,e.firstname,e.lastname,count(o.employeeid) as number_of_orders from employees e inner join orders o on e.employeeid = o.employeeid 
+-- where e.lastname = "Davolio" or e.lastname = "Fuller" group by e.employeeid,e.firstname,e.lastname having count(o.employeeid) > 25
+
 -- sub queries
 -- https://www.geeksforgeeks.org/sql-subquery/
 -- select name,location,phone_number from database where roll_no in (select roll_no from student where section = 'A')
@@ -67,6 +79,14 @@
 
 -- SQL subquery with the comparison operator
 -- select * from departments where department_id in (select department_id from employees where salary > 10000 limit 1);
+
+-- Exists and Not Exists
+-- find all departments in which atleast 1 employee has salary greater than 10000
+-- select * from department d where exists (select 1 from employees e where e.salary > 10000 and e.department_id = d.department_id );
+
+-- find all departments in which no employee has salary greater than 10000
+-- select * from department d where not exists (select 1 from employees e where e.salary > 10000 and e.department_id = d.department_id );
+
 
 -- SQL subquery with the ALL operator
 -- finds all employees whose salaries are greater than the lowest salary of every department:
@@ -114,10 +134,8 @@
 -- https://www.sqltutorial.org/sql-sample-database/
 
 -- find duplicate name in table
--- SELECT first_name, COUNT(*)
--- FROM employees
--- GROUP BY first_name
--- HAVING COUNT(*) > 1;
+-- SELECT DISTINCT ON (e.first_name) e.* 
+-- FROM employees e where e.first_name in ( SELECT first_namen FROM employees GROUP BY first_name HAVING COUNT(*) > 1)
 
 -- delete duplicate row in table
 -- select * from employees e1,employees e2 where e1.employee_id > e2.employee_id and e1.email = e2.email order by e2.email
@@ -243,5 +261,15 @@
 -- sql query to find employees whose salary exists between 35000 and 90000 with department
 -- select e.first_name, e.last_name, d.department_name,e.salary from employees e inner join
 -- departments d on e.department_id = d.department_id where e.salary between 4000 and 5000
+
+-- copy rows of table using sql query
+-- this will copy all data
+-- create table employee_copy as select * from employees;
+
+-- this will copy only 2 fields
+-- create table employee_salary as select first_name,salary from employees;
+
+-- this will only create schema
+-- create table employee_copy as select * from employees where 3=4; 
 
 
