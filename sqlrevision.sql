@@ -272,4 +272,10 @@
 -- this will only create schema
 -- create table employee_copy as select * from employees where 3=4; 
 
+-- find departments with highest salaries
+-- select department_name,max(salary) as maximum_salary from employees e inner join departments d on e.department_id = d.department_id group by department_name;
+
+
+
+
 
